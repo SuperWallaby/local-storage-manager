@@ -1,11 +1,11 @@
 {
-  "name": "mj-local-storage-manager",
+  "name": "local-storage-manager",
   "version": "1.0.6",
-  "description": "Local Sotrage Manager",
+  "description": "Local Sotrage Manage",
   "main": "build/main/index.js",
   "typings": "build/main/index.d.ts",
   "module": "build/module/index.js",
-  "repository": "https://github.com/SuperWallaby/mj-local-storage-manager",
+  "repository": "https://github.com/SuperWallaby/local-storage-manager",
   "license": "MIT",
   "keywords": [],
   "scripts": {

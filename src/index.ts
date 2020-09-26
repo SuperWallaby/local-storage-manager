@@ -1,4 +1,14 @@
+export type LocalManagerConfig = {
+  readonly storage: 'localStorage' | 'sessionStorage';
+};
+
 export class LocalManager<T extends string> {
+  readonly storage = window.localStorage;
+  constructor(config: LocalManagerConfig) {
+    if (config.storage === 'sessionStorage')
+      this.storage = window.sessionStorage;
+  }
+
   saveLocal(key: T, value: string | number | Object): void {
     let _value = value;
 
@@ -10,23 +20,23 @@ export class LocalManager<T extends string> {
       try {
         _value = JSON.stringify(value);
       } catch (e) {
-        localStorage.removeItem(key);
+        this.storage.removeItem(key);
         console.error('LocalManager::saveLocal:stringFyFailed');
         console.error(e);
       }
     }
 
-    if (typeof _value === 'string') localStorage.setItem(key, _value);
+    if (typeof _value === 'string') this.storage.setItem(key, _value);
   }
 
   getLocalObj<O>(key: T, or: O): O {
-    const value = localStorage.getItem(key) || '';
+    const value = this.storage.getItem(key) || '';
     let result = or;
 
     try {
       result = JSON.parse(value);
     } catch (e) {
-      localStorage.removeItem(key);
+      this.storage.removeItem(key);
       console.error('LocalManager::getLocalOj:parseFailed');
       console.error(e);
     }
@@ -35,12 +45,14 @@ export class LocalManager<T extends string> {
   }
 
   getLocal(key: T, or: string): string {
-    const item = localStorage.getItem(key) || '';
+    const item = this.storage.getItem(key) || '';
     return item || or;
   }
 
   getLocalNum(key: T, or: number): number {
-    const item = localStorage.getItem(key) || '';
+    const item = this.storage.getItem(key) || '';
     return parseInt(item) || or;
   }
 }
+
+export default LocalManager;
